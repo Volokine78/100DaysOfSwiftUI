@@ -45,3 +45,8 @@ let missionMessage = "Apollo " + String(no) + " landed on the moon"
 let missionMessage1 = "Apollo \(no) landed on the moon"
 print(missionMessage1)
 print("5 x 5 is \(5 * 5)")
+
+let celcius = 25.0
+let fahrenheit = celcius * 9 / 5 + 32
+print("\(celcius)°C is equal to \(fahrenheit)°F")
+// Option+Shift+8 for degrees symbol
