@@ -100,3 +100,17 @@ let results = [
 
 let historyResult = results["history", default: 0]
 print(historyResult)
+
+let people = Set(["Denzel Washington", "Tom Cruise", "Nicolas Cage", "Samuel L Jackson", "Tom Cruise"])
+print(people)
+print(people.count)
+
+var people2 = Set<String>()
+people2.insert("Denzel Washington")
+people2.insert("Tom Cruise")
+people2.insert("Nicolas Cage")
+people2.insert("Samual L Jackson")
+print(people2)
+print(people2.count)
+print(people2.sorted())
+people2.contains("Anthony Hopkins")
