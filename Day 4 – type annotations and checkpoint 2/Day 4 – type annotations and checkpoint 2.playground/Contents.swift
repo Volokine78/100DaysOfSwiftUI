@@ -24,3 +24,9 @@ enum UIStyle {
 
 var style = UIStyle.light
 style = .dark
+
+let games = ["GTA V", "Sekiro", "DOOM", "DOOM"]
+print(games.count)
+let uniqueGames = Set(games)
+print(uniqueGames.count)
+
