@@ -114,3 +114,20 @@ print(people2)
 print(people2.count)
 print(people2.sorted())
 people2.contains("Anthony Hopkins")
+
+enum Weekday {
+    case monday, tuesday, wednesday, thursday, friday
+}
+
+var day = Weekday.monday
+day = .tuesday
+day = .wednesday
+
+enum Planet: Int {
+    case mercury = 1    // raw value
+    case venus
+    case earth
+    case mars
+}
+
+let venus = Planet(rawValue: 2)
