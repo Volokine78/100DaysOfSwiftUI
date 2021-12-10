@@ -17,3 +17,34 @@ func printTimesTables(number: Int, end: Int) {
 }
 
 printTimesTables(number: 5, end: 20)
+
+func compareStrings(string1: String, string2: String) -> Bool {
+    string1.sorted() == string2.sorted()
+}
+ compareStrings(string1: "abc", string2: "cba")
+
+func pythagoras(a: Double, b: Double) -> Double {
+    let input = a * a + b * b
+    let root = sqrt(input)
+    return root
+}
+
+func pythagoras1(a: Double, b: Double) -> Double {
+    sqrt(pow(a, 2) + pow(b, 2))
+}
+
+let c = pythagoras1(a: 3, b: 4)
+print(c)
+
+func rollDice() -> Int {
+    Int.random(in: 1...6)
+}
+
+let result = rollDice()
+print(result)
+
+func helloWorld() {
+    return
+}
+
+helloWorld()
