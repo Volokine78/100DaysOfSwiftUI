@@ -60,3 +60,40 @@ do {
 
 let result2 = try! checkPassword(password)
 print(result2)
+
+// Checkpoint 4
+enum SquareRootError: Error {
+    case outOfBounds, noRoot
+}
+
+func squareRoot(of number: Int) throws -> Int {
+    
+    if number < 1 || number > 10_000 {
+        throw SquareRootError.outOfBounds
+    }
+
+    for i in 1...100 {
+        if i * i == number {
+            return i
+        }
+    }
+    throw SquareRootError.noRoot
+}
+
+let number = 49
+
+do {
+    let result = try squareRoot(of: number)
+    print("Square root of \(number) is \(result)")
+} catch SquareRootError.outOfBounds {
+    print("Please use range of 1...10_000")
+} catch SquareRootError.noRoot {
+    print("This number has no square root")
+}
+
+func sqrt123(number: Int) -> Int {
+    Int(pow(Double(number), 0.5))
+}
+
+print(sqrt123(number: 49))
+
