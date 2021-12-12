@@ -62,3 +62,32 @@ let captainFirstTeamClosure = team.sorted(by: { (name1: String, name2: String) -
 })
 
 print(captainFirstTeamClosure)
+
+let captainFirstTeamClosure2 = team.sorted { name1, name2 in
+    if name1 == "Suzanne" {
+        return true
+    } else if name2 == "Suzanne" {
+        return false
+    }
+    
+    return name1 < name2
+}
+
+let captainFirstTeamClosure3 = team.sorted {
+    if $0 == "Suzanne" {
+        return true
+    } else if $1 == "Suzanne" {
+        return false
+    }
+    
+    return $0 < $1
+}
+
+let reversedTeam = team.sorted { $0 > $1 }
+print(reversedTeam)
+
+let tOnly = team.filter { $0.hasPrefix("T") }
+print(tOnly)
+
+let uppercaseTeam = team.map { $0.uppercased() }
+print(uppercaseTeam)
