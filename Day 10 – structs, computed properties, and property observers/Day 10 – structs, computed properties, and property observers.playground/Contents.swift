@@ -68,3 +68,36 @@ var archer3 = Employee2(name: "Sterling Archer", vacationAllocated: 14)
 archer3.vacationTaken += 4
 archer3.vacationRemaining = 5
 print(archer3.vacationAllocated)
+
+struct Game {
+    var score = 0 {
+        didSet {
+            print("Score is now \(score)")
+        }
+    }
+}
+
+var game = Game()
+game.score += 10
+game.score -= 3
+game.score += 1
+print()
+
+struct App {
+    var contacts = [String]() {
+        willSet {
+            print("Current value is: \(contacts)")
+            print("New value will be: \(newValue)")
+        }
+        
+        didSet {
+            print("There are now \(contacts.count) contacts.")
+            print("Old value was \(oldValue)\n")
+        }
+    }
+}
+
+var app = App()
+app.contacts.append("Adrian E")
+app.contacts.append("Allen W")
+app.contacts.append("Ish S")
