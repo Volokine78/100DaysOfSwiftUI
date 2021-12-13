@@ -134,3 +134,17 @@ doImportantWork {
     print("This is the third work")
 }
 
+print()
+//MARK: - Checkpoint 5
+
+let luckyNumbers = [7, 4, 38, 21, 16, 15, 12, 33, 31, 49]
+
+let resultArray = luckyNumbers.filter {
+    !$0.isMultiple(of: 2)
+} .sorted {
+    $0 < $1
+} .map {
+    "\($0) is a lucky number"
+}.joined(separator: "\n")
+
+print(resultArray)
