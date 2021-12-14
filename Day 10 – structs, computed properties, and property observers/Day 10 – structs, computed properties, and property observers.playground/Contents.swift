@@ -101,3 +101,34 @@ var app = App()
 app.contacts.append("Adrian E")
 app.contacts.append("Allen W")
 app.contacts.append("Ish S")
+
+struct Player {
+    let name: String
+    let number: Int
+    
+    init(name: String) {
+        self.name = name
+        number = Int.random(in: 1...99)
+    }
+}
+
+let player = Player(name: "Megan R")
+print(player.number)
+
+struct Employee3 {
+    var name: String
+    var yearsActive = 0
+}
+
+extension Employee3 {
+    init() {
+        self.name = "Anonymous"
+        print("Creating an anonymous employee…")
+    }
+}
+
+// creating a named employee now works
+let roslin = Employee3(name: "Laura Roslin")
+
+// as does creating an anonymous employee
+let anon = Employee3()
