@@ -60,3 +60,35 @@ struct Employee {
 }
 
 Employee.example
+
+// MARK: - Checkpoint 6
+struct Car {
+    let model: String
+    let numberOfSeats: Int
+    private(set) var currentGear: Int
+    
+    init(model: String, numberOfSeats: Int, currentGear: Int) {
+        self.model = model
+        self.numberOfSeats = numberOfSeats
+        self.currentGear = currentGear
+    }
+    
+    mutating func gearUp() {
+        if currentGear > 0 && currentGear < 10 {
+            currentGear += 1
+        }
+    }
+    
+    mutating func gearDown() {
+        if currentGear > 1 && currentGear <= 10 {
+            currentGear -= 1
+        }
+    }
+}
+
+var ferrari = Car(model: "F50", numberOfSeats: 2, currentGear: 5)
+ferrari.gearDown()
+print(ferrari.currentGear)
+ferrari.gearUp()
+print(ferrari.currentGear)
+
