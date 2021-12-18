@@ -81,3 +81,28 @@ user2.username = "Taylor"
 
 print(user1.username)
 print(user2.username)
+
+class User1 {
+    let id: Int
+    
+    init(id: Int) {
+        self.id = id
+        print("User \(id): I'm alive!")
+    }
+    
+    deinit {
+        print("User \(id): I'm dead!")
+    }
+}
+
+var users = [User1]()
+
+for i in 1...3 {
+    let user = User1(id: i)
+    print("User \(user.id): I'm in control!")
+    users.append(user)
+}
+
+print("Loop is finished!")
+users.removeAll()
+print("Array is clear!")
