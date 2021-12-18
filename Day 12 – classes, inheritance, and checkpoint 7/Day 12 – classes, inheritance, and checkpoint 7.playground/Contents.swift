@@ -106,3 +106,16 @@ for i in 1...3 {
 print("Loop is finished!")
 users.removeAll()
 print("Array is clear!")
+
+class User2 {
+    var name = "Paul"
+}
+
+let user3 = User2()
+user3.name = "Taylor"
+print(user3.name)
+
+var user4 = User2()
+user4.name = "Taylor"
+user4 = User2()
+print(user4.name)
