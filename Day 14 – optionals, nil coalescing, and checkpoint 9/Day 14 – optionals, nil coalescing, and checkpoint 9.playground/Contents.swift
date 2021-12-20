@@ -84,3 +84,9 @@ if let user = try? getUser(id: 23) {
 
 let user1 = (try? getUser(id: 23)) ?? "Anonymous"
 print(user1)
+
+// MARK: - Checkpoint 9
+func opt(_ array: [Int]?) -> Int {array?.randomElement() ?? Int.random(in: 1...100) }
+opt([1, 2, 3, 4])
+opt(nil)
+opt([])
