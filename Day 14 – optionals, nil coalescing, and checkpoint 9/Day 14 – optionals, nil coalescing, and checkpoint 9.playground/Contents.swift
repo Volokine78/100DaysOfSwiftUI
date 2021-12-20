@@ -25,3 +25,11 @@ if let number = number {
     print(square(number: number))
 }
 
+func printSquare(of number: Int?) {
+    guard let number = number else {
+        print("missing input")
+        return
+    }
+    
+    print("\(number) x \(number) is \(number * number)")
+}
