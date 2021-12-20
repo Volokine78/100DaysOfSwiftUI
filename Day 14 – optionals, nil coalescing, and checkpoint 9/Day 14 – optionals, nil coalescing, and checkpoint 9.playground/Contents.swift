@@ -70,3 +70,17 @@ struct Book1 {
 var book1: Book1? = nil
 let author1 = book1?.author1?.first?.uppercased()
 
+enum UserError: Error {
+    case badID, networkFailed
+}
+
+func getUser(id: Int) throws -> String {
+    throw UserError.networkFailed
+}
+
+if let user = try? getUser(id: 23) {
+    print("User: \(user)")
+}
+
+let user1 = (try? getUser(id: 23)) ?? "Anonymous"
+print(user1)
