@@ -178,3 +178,35 @@ print(user1 < user2)
 print(user1 <= user2)
 print(user1 > user2)
 print(user1 >= user2)
+
+// MARK: - Checkpoint 8
+protocol Building {
+    var rooms: Int { get }
+    var cost: Int { get }
+    var estateAgent: String { get }
+    
+    func sold()
+}
+
+extension Building {
+    func sold() {
+        print("Sold with cost of \(cost) by \(estateAgent)")
+    }
+}
+
+struct House: Building {
+    let rooms: Int
+    let cost: Int
+    let estateAgent: String
+}
+
+struct Office: Building {
+    let rooms: Int
+    let cost: Int
+    let estateAgent: String
+}
+
+let house = House(rooms: 5, cost: 1_000_000, estateAgent: "John Carpenter")
+house.sold()
+let office = Office(rooms: 30, cost: 20_000_000, estateAgent: "Ali Carter")
+office.sold()
