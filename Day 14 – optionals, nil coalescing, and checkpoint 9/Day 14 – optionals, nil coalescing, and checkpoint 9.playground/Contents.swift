@@ -57,3 +57,16 @@ print(author)
 let input = ""
 let number1 = Int(input) ?? 0
 print(number1)
+
+let names = ["Arya", "Bran", "Robb", "Sansa"]
+let chosen = names.randomElement()?.uppercased() ?? "No one"
+print("Next in line: \(chosen)")
+
+struct Book1 {
+    let title: String
+    let author1: String?
+}
+
+var book1: Book1? = nil
+let author1 = book1?.author1?.first?.uppercased()
+
