@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct ProminentTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.blue)
+    }
+}
+
+extension View {
+    func prominentTitled() -> some View {
+        modifier(ProminentTitle())
+    }
+}
+
 struct Watermark: ViewModifier {
     var text: String
     
@@ -62,6 +76,9 @@ struct ContentView: View {
             Color.green
                 .frame(width: 300, height: 200)
                 .modifier(Watermark(text: "Hacking with Swift"))
+            
+            Text("Come on Hudson!")
+                .prominentTitled()
         }
     }
 }
