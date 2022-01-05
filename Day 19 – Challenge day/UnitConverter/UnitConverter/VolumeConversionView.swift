@@ -1,30 +1,28 @@
 //
-//  ContentView.swift
+//  VolumeConversionView.swift
 //  UnitConverter
 //
-//  Created by Tolga PIRTURK on 25.12.2021.
+//  Created by Tolga PIRTURK on 5.01.2022.
 //
 
 import SwiftUI
 
-struct ContentView: View {
-    
+struct VolumeConversionView: View {
     @State private var inputAmount: Double = 0.0
     @State private var selectedInputUnitIndex = 0
     @State private var selectedOutputUnitIndex = 0
     @FocusState private var amountIsFocused: Bool
-    let measurementFormatter = MeasurementFormatter()
     
-    let unitPairs: [(unitName: String, unitLength: UnitLength)] = [("mm", .millimeters), ("m", .meters), ("km", .kilometers), ("inch", .inches), ("foot", .feet), ("yard", .yards), ("mile", .miles)]
+    let unitPairs: [(unitName: String, unitVolume: UnitVolume)] = [("Centiliters", .centiliters), ("Deciliters", .deciliters), ("Liters", .liters), ("Kiloliters", .kiloliters), ("Megaliters", .megaliters), ("Gallons", .gallons)]
     
-    var inputMeasurement: Measurement<UnitLength> {
-        let selectedUnit = unitPairs[selectedInputUnitIndex].unitLength
+    var inputMeasurement: Measurement<UnitVolume> {
+        let selectedUnit = unitPairs[selectedInputUnitIndex].unitVolume
         let input = Measurement(value: inputAmount, unit: selectedUnit)
         return input
     }
     
-    var outputMeasurement: Measurement<UnitLength> {
-        let selectedUnit = unitPairs[selectedOutputUnitIndex].unitLength
+    var outputMeasurement: Measurement<UnitVolume> {
+        let selectedUnit = unitPairs[selectedOutputUnitIndex].unitVolume
         let output = inputMeasurement.converted(to: selectedUnit)
         return output
     }
@@ -65,7 +63,7 @@ struct ContentView: View {
                     Text(outputString)
                 }
             }
-            .navigationBarTitle("Conversions")
+            .navigationBarTitle("Volume Conversions")
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
@@ -79,8 +77,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct VolumeConversionView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        VolumeConversionView()
     }
 }
