@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
     @State private var score = 0
+    @State private var gameCounter = 0
     @State private var gameFinished = false
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
@@ -70,13 +71,13 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is \(score)")
+            Text("\(gameCounter)/8 round!\nYour score is \(score)")
         }
         
         .alert(scoreTitle, isPresented: $gameFinished) {
             Button("Restart", action: reset)
         } message: {
-            Text("You've finished the game!\n final score: \(score)")
+            Text("\(gameCounter)/8 round!\nFinal Score: \(score)")
         }
     }
     
@@ -84,15 +85,23 @@ struct ContentView: View {
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 10
+            gameCounter += 1
             showingScore = true
         } else {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
-            showingScore = false
-            gameFinished = true
+            if score != 0 {
+                score -= 5
+            }
+            gameCounter += 1
+            showingScore = true
         }
         
-        if score == 80 {
-            scoreTitle = "Congrats!"
+        if gameCounter == 8 {
+            scoreTitle = "You've finished the game!"
+            if score == 80 {
+                scoreTitle = "Perfect!"
+                score += 20
+            }
             showingScore = false
             gameFinished = true
         }
@@ -106,6 +115,7 @@ struct ContentView: View {
     func reset() {
         askQuestion()
         score = 0
+        gameCounter = 0
     }
 }
 
