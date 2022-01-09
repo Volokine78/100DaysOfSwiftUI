@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var usedWords = [String]()
     @State private var rootWord = ""
     @State private var newWord = ""
+    @State private var score = 0
     
     @State private var errorTitle = ""
     @State private var errorMessage = ""
@@ -23,6 +24,11 @@ struct ContentView: View {
                     TextField("Enter your word", text: $newWord)
                         .autocapitalization(.none)
                 }
+                
+                Section {
+                    Text("Score: \(score)")
+                }
+                .font(.title3.weight(.bold))
                 
                 Section {
                     ForEach(usedWords, id: \.self) { word in
@@ -40,6 +46,15 @@ struct ContentView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(errorMessage)
+            }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Start New Game") {
+                        startGame()
+                        usedWords = [String]()
+                        score = 0
+                    }
+                }
             }
         }
     }
@@ -63,9 +78,21 @@ struct ContentView: View {
             return
         }
         
+        guard answer.count > 2 else {
+            wordError(title: "Word is too short", message: "You should write a word with at least 3 letters!")
+            return
+        }
+        
+        guard rootWord != answer else {
+            wordError(title: "Can't use start word", message: "You should write different word than the word asked!")
+            return
+        }
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
+        
+        score += 10 + usedWords[0].count
         
         newWord = ""
     }
