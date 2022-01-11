@@ -13,6 +13,11 @@ struct ContentView: View {
     @State private var score = 0
     @State private var gameCounter = 0
     @State private var gameFinished = false
+    @State private var isRotated = false
+    @State private var isFadeOut = false
+    @State private var isScaled = false
+    @State private var selectedNumber = 0
+    @State private var animationAmount = 0.0
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -43,12 +48,20 @@ struct ContentView: View {
                     
                     ForEach(0..<3) { number in
                         Button {
-                            flagTapped(number)
+                            withAnimation {
+                                flagTapped(number)
+                            }
                         } label: {
                             Image(countries[number])
                                 .renderingMode(.original)
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
+                                .rotation3DEffect(
+                                    .degrees(isRotated && selectedNumber == number ? 360 : 0),
+                                    axis: (x: 0, y: 1, z: 0)
+                                )
+                                .opacity(isFadeOut && selectedNumber != number ? 0.25 : 1)
+                                .scaleEffect(isScaled && selectedNumber != number ? 0.75 : 1)
                         }
                     }
                 }
@@ -56,6 +69,7 @@ struct ContentView: View {
                 .padding(.vertical, 20)
                 .background(.regularMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                .animation(.easeOut(duration: 0.2), value: animationAmount)
                 
                 Spacer()
                 Spacer()
@@ -82,6 +96,11 @@ struct ContentView: View {
     }
     
     func flagTapped(_ number: Int) {
+        selectedNumber = number
+        isRotated = true
+        isFadeOut = true
+        isScaled = true
+        
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 10
@@ -110,12 +129,19 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        isRotated = false
+        isFadeOut = false
+        isScaled = false
+        animationAmount += 1
     }
     
     func reset() {
         askQuestion()
         score = 0
         gameCounter = 0
+        isRotated = false
+        isFadeOut = false
+        isScaled = false
     }
 }
 
