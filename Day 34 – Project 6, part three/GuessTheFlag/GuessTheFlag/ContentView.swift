@@ -13,9 +13,7 @@ struct ContentView: View {
     @State private var score = 0
     @State private var gameCounter = 0
     @State private var gameFinished = false
-    @State private var isRotated = false
-    @State private var isFadeOut = false
-    @State private var isScaled = false
+    @State private var isAnimated = false
     @State private var selectedNumber = 0
     @State private var animationAmount = 0.0
     
@@ -57,11 +55,11 @@ struct ContentView: View {
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
                                 .rotation3DEffect(
-                                    .degrees(isRotated && selectedNumber == number ? 360 : 0),
+                                    .degrees(isAnimated && selectedNumber == number ? 360 : 0),
                                     axis: (x: 0, y: 1, z: 0)
                                 )
-                                .opacity(isFadeOut && selectedNumber != number ? 0.25 : 1)
-                                .scaleEffect(isScaled && selectedNumber != number ? 0.75 : 1)
+                                .opacity(isAnimated && selectedNumber != number ? 0.25 : 1)
+                                .scaleEffect(isAnimated && selectedNumber != number ? 0.75 : 1)
                         }
                     }
                 }
@@ -97,22 +95,27 @@ struct ContentView: View {
     
     func flagTapped(_ number: Int) {
         selectedNumber = number
-        isRotated = true
-        isFadeOut = true
-        isScaled = true
+        isAnimated = true
         
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 10
             gameCounter += 1
-            showingScore = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                showingScore = true
+            }
+            
         } else {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
             if score != 0 {
                 score -= 5
             }
             gameCounter += 1
-            showingScore = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                showingScore = true
+            }
         }
         
         if gameCounter == 8 {
@@ -120,6 +123,9 @@ struct ContentView: View {
             if score == 80 {
                 scoreTitle = "Perfect!"
                 score += 20
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                showingScore = false
             }
             showingScore = false
             gameFinished = true
@@ -129,9 +135,7 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
-        isRotated = false
-        isFadeOut = false
-        isScaled = false
+        isAnimated = false
         animationAmount += 1
     }
     
@@ -139,9 +143,7 @@ struct ContentView: View {
         askQuestion()
         score = 0
         gameCounter = 0
-        isRotated = false
-        isFadeOut = false
-        isScaled = false
+        isAnimated = false
     }
 }
 
