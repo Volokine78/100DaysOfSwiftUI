@@ -49,11 +49,7 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Start New Game") {
-                        startGame()
-                        usedWords = [String]()
-                        score = 0
-                    }
+                    Button("Start New Game", action: startGame)
                 }
             }
         }
@@ -98,6 +94,8 @@ struct ContentView: View {
     }
     
     func startGame() {
+        usedWords = [String]()
+        score = 0
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")

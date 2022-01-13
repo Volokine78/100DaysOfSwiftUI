@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingScore = false
+    @State private var flagTapped = false
     @State private var scoreTitle = ""
+    @State private var alertButtonTitle = ""
     @State private var score = 0
     @State private var gameCounter = 0
-    @State private var gameFinished = false
     @State private var isAnimated = false
     @State private var selectedNumber = 0
     @State private var animationAmount = 0.0
+    @State private var selectedAction: () -> Void = { }
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -80,41 +81,31 @@ struct ContentView: View {
             }
             .padding()
         }
-        .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
+        .alert(scoreTitle, isPresented: $flagTapped) {
+            Button(alertButtonTitle, action: selectedAction)
         } message: {
             Text("\(gameCounter)/8 round!\nYour score is \(score)")
-        }
-        
-        .alert(scoreTitle, isPresented: $gameFinished) {
-            Button("Restart", action: reset)
-        } message: {
-            Text("\(gameCounter)/8 round!\nFinal Score: \(score)")
         }
     }
     
     func flagTapped(_ number: Int) {
         selectedNumber = number
         isAnimated = true
-        
+        gameCounter += 1
+        selectedAction = askQuestion
+        alertButtonTitle = "Continue"
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            flagTapped = true
+        }
+
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 10
-            gameCounter += 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                showingScore = true
-            }
-            
         } else {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
             if score != 0 {
                 score -= 5
-            }
-            gameCounter += 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                showingScore = true
             }
         }
         
@@ -124,11 +115,8 @@ struct ContentView: View {
                 scoreTitle = "Perfect!"
                 score += 20
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                showingScore = false
-            }
-            showingScore = false
-            gameFinished = true
+            selectedAction = reset
+            alertButtonTitle = "Restart"
         }
     }
     
