@@ -11,7 +11,7 @@ import SwiftUI
 struct Fun_TablesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SettingsView()
         }
     }
 }

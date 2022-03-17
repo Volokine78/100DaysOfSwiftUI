@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var flagTapped = false
+    @State private var isFlagTapped = false
     @State private var scoreTitle = ""
     @State private var alertButtonTitle = ""
     @State private var score = 0
@@ -81,7 +81,7 @@ struct ContentView: View {
             }
             .padding()
         }
-        .alert(scoreTitle, isPresented: $flagTapped) {
+        .alert(scoreTitle, isPresented: $isFlagTapped) {
             Button(alertButtonTitle, action: selectedAction)
         } message: {
             Text("\(gameCounter)/8 round!\nYour score is \(score)")
@@ -96,7 +96,7 @@ struct ContentView: View {
         alertButtonTitle = "Continue"
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            flagTapped = true
+            isFlagTapped = true
         }
 
         if number == correctAnswer {
