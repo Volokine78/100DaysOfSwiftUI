@@ -7,6 +7,32 @@
 
 import SwiftUI
 
+struct AmountStyle: ViewModifier {
+    var amount: Double
+    
+    func body(content: Content) -> some View {
+        if amount < 10 {
+            content
+                .font(.body)
+                .foregroundColor(.red)
+        } else if amount < 100 {
+            content
+                .font(.body)
+                .foregroundColor(.blue)
+        } else if amount > 100 {
+            content
+                .font(.body)
+                .foregroundColor(.green)
+        }
+    }
+}
+
+extension View {
+    func amountStyle(with amount: Double) -> some View {
+        modifier(AmountStyle(amount: amount))
+    }
+}
+
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     @State private var showingAddExpense = false
@@ -14,20 +40,47 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
+                Section {
+                    ForEach(expenses.personalItems) { item in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.name)
+                                    .font(.headline)
+                                Text(item.type)
+                            }
+                            
+                            Spacer()
+                            
+                            Text(item.amount, format: .currency(code: item.currency))
+                                .amountStyle(with: item.amount)
                         }
-                        
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: "USD"))
                     }
+                    .onDelete(perform: removePersonalItems)
+                } header: {
+                    Text("Personal")
+                        .font(.headline)
                 }
-                .onDelete(perform: removeItems)
+                
+                Section {
+                    ForEach(expenses.businessItems) { item in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.name)
+                                    .font(.headline)
+                                Text(item.type)
+                            }
+                            
+                            Spacer()
+                            
+                            Text(item.amount, format: .currency(code: item.currency))
+                                .amountStyle(with: item.amount)
+                        }
+                    }
+                    .onDelete(perform: removeBusinessItems)
+                } header: {
+                    Text("Business")
+                        .font(.headline)
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -43,8 +96,12 @@ struct ContentView: View {
         }
     }
     
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    func removePersonalItems(at offsets: IndexSet) {
+        expenses.personalItems.remove(atOffsets: offsets)
+    }
+    
+    func removeBusinessItems(at offsets: IndexSet) {
+        expenses.businessItems.remove(atOffsets: offsets)
     }
 }
 
